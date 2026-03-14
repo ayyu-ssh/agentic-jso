@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+state_debug.json
+state_debug_after_expansion.json
+state_debug_after_query_generation.json
+state_debug_after_search.json
