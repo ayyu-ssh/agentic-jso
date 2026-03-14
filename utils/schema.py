@@ -13,3 +13,10 @@ class AgenticJSOSharedState(BaseModel):
     domain: Optional[List[str]]
     xray_queries: Dict[str, str]
     search_results: List[dict]
+
+class HealthResponse(BaseModel):
+	status: str
+
+
+class SearchResponse(BaseModel):
+	search_results: list[dict[str, Any]]

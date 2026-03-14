@@ -15,7 +15,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 
-from utils.schema import AgenticJSOSharedState
+from utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
 
 
 logger = logging.getLogger("agentic_jso_api")
@@ -24,14 +24,6 @@ if not logger.handlers:
 
 MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024
 ALLOWED_RESUME_EXTENSIONS = {".pdf"}
-
-
-class HealthResponse(BaseModel):
-	status: str
-
-
-class SearchResponse(BaseModel):
-	search_results: list[dict[str, Any]]
 
 
 def _validate_required_env() -> None:
