@@ -1,14 +1,6 @@
-from pathlib import Path
-import sys
-
-if __package__ is None or __package__ == "":
-    # Allow running this file directly: `python nodes/query_expansion.py`.
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from inputs import *
-from utils.schema import AgenticJSOSharedState
-from utils.prompts import QueryExpansionPrompt
-from utils.config import GEMINI_MODEL
+from backend.utils.schema import AgenticJSOSharedState
+from backend.utils.prompts import QueryExpansionPrompt
+from backend.utils.config import GEMINI_MODEL
 from deepagents import create_deep_agent
 import json
 import logging

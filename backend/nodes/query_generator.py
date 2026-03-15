@@ -1,6 +1,5 @@
-from utils.schema import AgenticJSOSharedState
-from utils.config import GEMINI_MODEL
-from nodes.xray_adapters import linkedin_xray, greenhouse_xray, lever_xray, wellfound_xray
+from backend.utils.schema import AgenticJSOSharedState
+from backend.nodes.xray_adapters import linkedin_xray, greenhouse_xray, lever_xray, wellfound_xray
 
 def generate_job_query(state: AgenticJSOSharedState) -> AgenticJSOSharedState:
 

@@ -1,7 +1,6 @@
 from pathlib import Path
 import sys
-from utils.schema import AgenticJSOSharedState
-from inputs import *
+from backend.utils.schema import AgenticJSOSharedState
 from pyresparser import ResumeParser
 
 

@@ -5,7 +5,7 @@ import http.client
 import json
 from typing import Iterable
 
-from utils.schema import AgenticJSOSharedState
+from backend.utils.schema import AgenticJSOSharedState
 import os
 from dotenv import load_dotenv
 load_dotenv()

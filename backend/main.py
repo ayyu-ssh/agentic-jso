@@ -17,7 +17,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 
-from utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
+from backend.utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
 
 
 logger = logging.getLogger("agentic_jso_api")
@@ -72,10 +72,10 @@ async def _save_uploaded_resume(file: UploadFile) -> str:
 
 
 def _run_pipeline(state: AgenticJSOSharedState) -> AgenticJSOSharedState:
-	from nodes.parser import parse_resume
-	from nodes.query_expansion import query_expansion
-	from nodes.query_generator import generate_job_query
-	from nodes.search import run_parallel_search
+	from backend.nodes.parser import parse_resume
+	from backend.nodes.query_expansion import query_expansion
+	from backend.nodes.query_generator import generate_job_query
+	from backend.nodes.search import run_parallel_search
 
 	state = parse_resume(state)
 	with open("state_debug.json", "w", encoding="utf-8") as f:
@@ -161,4 +161,4 @@ async def search_jobs(
 if __name__ == "__main__":
 	import uvicorn
 
-	uvicorn.run("main:app", reload=True)
+	uvicorn.run("backend.main:app", reload=True)
