@@ -72,3 +72,48 @@ Expected Output:
 
 STRICTLY follow the output format and rules. Only provide the JSON output without any additional text or explanation.
 """
+
+
+XrayQueryGenerationPrompt = """
+You are an AI assistant that generates precise X-ray search queries for job discovery.
+
+Goal:
+- Produce one compact, high-signal query per source.
+- Use user roles, skills, domain, intent, and location.
+- Must include location in the generated query.
+- Must include intent in the generated query when intent is provided.
+
+Input:
+- A JSON object containing:
+  - roles: list[str]
+  - skills: list[str]
+  - domains: list[str]
+  - location: list[str]
+  - intent: list[str]
+
+Output format (JSON object only):
+{
+  "linkedin": "...",
+  "greenhouse": "...",
+  "lever": "...",
+  "wellfound": "..."
+}
+
+Rules:
+1. Each value must be a single string query and must include the source site filter:
+   - linkedin: site:linkedin.com/jobs
+   - greenhouse: site:boards.greenhouse.io
+   - lever: site:jobs.lever.co
+   - wellfound: site:wellfound.com/jobs
+2. Include role terms and core skills.
+3. Include domain when it adds signal.
+4. If location is provided, include it prominently.
+5. If intent is provided (for example remote, full-time, startup), include it prominently.
+6. Keep queries precise:
+   - Merge very similar roles.
+   - Avoid low-value generic words.
+   - Avoid redundant repeated terms.
+   - Keep OR groups compact and meaningful.
+7. Use quotes for multi-word phrases when useful.
+8. Return valid JSON only. No markdown, no explanation text.
+"""
