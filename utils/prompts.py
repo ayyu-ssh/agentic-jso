@@ -72,6 +72,3 @@ Expected Output:
 
 STRICTLY follow the output format and rules. Only provide the JSON output without any additional text or explanation.
 """
-
-QueryGeneratorPrompt = """
-"""

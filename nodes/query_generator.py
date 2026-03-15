@@ -1,11 +1,6 @@
 from utils.schema import AgenticJSOSharedState
 from utils.config import GEMINI_MODEL
-from utils.prompts import QueryGeneratorPrompt
-from deepagents import create_deep_agent
 from nodes.xray_adapters import linkedin_xray, greenhouse_xray, lever_xray, wellfound_xray
-
-agent = create_deep_agent(model=GEMINI_MODEL,
-                          system_prompt=QueryGeneratorPrompt)
 
 def generate_job_query(state: AgenticJSOSharedState) -> AgenticJSOSharedState:
 
