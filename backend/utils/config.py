@@ -4,7 +4,7 @@ load_dotenv()
 
 GEMINI_KEY = os.getenv("GEMINI_KEY")
 GEMINI_MODEL = "google_genai:gemini-2.5-flash"
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+# TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
 
 # Keep backward compatibility with GEMINI_KEY while satisfying providers that

@@ -20,10 +20,10 @@ export default function HomePage(): JSX.Element {
         <header className="mb-6 rounded-3xl border border-black/10 bg-panel p-6 shadow-soft">
           <p className="text-xs uppercase tracking-[0.2em] text-ink/70">JSO Prototype</p>
           <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-            Resume-Assisted Job Search
+            Intent-Aware Job Search Optimizer
           </h1>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink/80">
-            This frontend is intentionally minimal for fast iteration, while keeping API boundaries and state structure ready for future integration into JSO dashboards.
+            Resume + Intent + Query-based search powered by a modular agentic pipeline. Ready for future integration into JSO dashboards.
           </p>
         </header>
 
