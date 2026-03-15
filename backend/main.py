@@ -17,7 +17,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 
-from utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
+from backend.utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
 
 
 logger = logging.getLogger("agentic_jso_api")
@@ -49,6 +49,27 @@ def _validate_resume_filename(filename: Optional[str]) -> str:
 	return suffix
 
 
+def _normalize_optional_terms(values: Optional[list[str]]) -> Optional[list[str]]:
+	if not values:
+		return None
+
+	normalized: list[str] = []
+	seen: set[str] = set()
+
+	for raw in values:
+		for term in str(raw).split(","):
+			cleaned = term.strip()
+			if not cleaned:
+				continue
+			key = cleaned.lower()
+			if key in seen:
+				continue
+			seen.add(key)
+			normalized.append(cleaned)
+
+	return normalized or None
+
+
 async def _save_uploaded_resume(file: UploadFile) -> str:
 	suffix = _validate_resume_filename(file.filename)
 	total_size = 0
@@ -72,10 +93,10 @@ async def _save_uploaded_resume(file: UploadFile) -> str:
 
 
 def _run_pipeline(state: AgenticJSOSharedState) -> AgenticJSOSharedState:
-	from nodes.parser import parse_resume
-	from nodes.query_expansion import query_expansion
-	from nodes.query_generator import generate_job_query
-	from nodes.search import run_parallel_search
+	from backend.nodes.parser import parse_resume
+	from backend.nodes.query_expansion import query_expansion
+	from backend.nodes.query_generator import generate_job_query
+	from backend.nodes.search import run_parallel_search
 
 	state = parse_resume(state)
 	with open("state_debug.json", "w", encoding="utf-8") as f:
@@ -117,17 +138,20 @@ async def search_jobs(
 	if not cleaned_query:
 		raise HTTPException(status_code=400, detail="query must not be empty")
 
+	normalized_intent = _normalize_optional_terms(job_search_intent)
+	normalized_locations = _normalize_optional_terms(location_preferences)
+
 	start_time = time.perf_counter()
 	resume_path = await _save_uploaded_resume(resume)
 
 	try:
 		state = AgenticJSOSharedState(
 			query=cleaned_query,
-			job_search_intent=job_search_intent,
+			job_search_intent=normalized_intent,
 			resume_path=resume_path,
 			resume_data={},
 			target_roles=[],
-			location_preferences=location_preferences,
+			location_preferences=normalized_locations,
 			skills=[],
 			expanded_titles=[],
 			domain=[],
@@ -161,4 +185,4 @@ async def search_jobs(
 if __name__ == "__main__":
 	import uvicorn
 
-	uvicorn.run("main:app", reload=True)
+	uvicorn.run("backend.main:app", reload=True)

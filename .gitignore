@@ -9,6 +9,11 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# Frontend-generated artifacts
+frontend/.next/
+frontend/node_modules/
+
 state_debug.json
 state_debug_after_expansion.json
 state_debug_after_query_generation.json
