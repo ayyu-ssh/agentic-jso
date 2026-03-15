@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
 import tempfile
 import time
 from pathlib import Path
 from typing import Any, Optional
+import json
 
 from dotenv import load_dotenv
 
@@ -29,7 +31,7 @@ ALLOWED_RESUME_EXTENSIONS = {".pdf"}
 def _validate_required_env() -> None:
 	missing = [
 		key
-		for key in ("GEMINI_KEY", "TAVILY_API_KEY")
+		for key in ("GEMINI_KEY", "SERP_DEV_API_KEY")
 		if not os.getenv(key)
 	]
 	if missing:
