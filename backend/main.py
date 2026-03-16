@@ -19,6 +19,31 @@ from pydantic import BaseModel
 
 from backend.utils.schema import AgenticJSOSharedState, HealthResponse, SearchResponse
 
+import nltk
+import spacy
+import subprocess
+import sys
+
+# Ensure NLTK resources exist
+def ensure_nltk():
+    resources = ["stopwords", "punkt", "wordnet"]
+    for r in resources:
+        try:
+            nltk.data.find(f"corpora/{r}")
+        except LookupError:
+            nltk.download(r)
+
+# Ensure spaCy model exists
+def ensure_spacy():
+    try:
+        spacy.load("en_core_web_sm")
+    except OSError:
+        subprocess.check_call(
+            [sys.executable, "-m", "spacy", "download", "en_core_web_sm"]
+        )
+
+ensure_nltk()
+ensure_spacy()
 
 logger = logging.getLogger("agentic_jso_api")
 if not logger.handlers:
