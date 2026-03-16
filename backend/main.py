@@ -127,6 +127,11 @@ def health() -> HealthResponse:
 	return HealthResponse(status="ok")
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+	return {"status": "ok", "service": "agentic-jso-api"}
+
+
 @app.post("/search", response_model=SearchResponse)
 async def search_jobs(
 	query: str = Form(...),
@@ -184,5 +189,12 @@ async def search_jobs(
 
 if __name__ == "__main__":
 	import uvicorn
+
 	port = int(os.environ.get("PORT", 8000))
-	uvicorn.run("backend.main:app", host="0.0.0.0", port=port, reload=True)
+	reload_enabled = os.environ.get("UVICORN_RELOAD", "false").lower() == "true"
+	uvicorn.run(
+		"backend.main:app",
+		host="0.0.0.0",
+		port=port,
+		reload=reload_enabled,
+	)

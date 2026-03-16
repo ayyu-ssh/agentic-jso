@@ -384,6 +384,8 @@ Backend:
 - Container or VM deployment with Python 3.11 runtime.
 - Must provide `GEMINI_KEY` and `SERP_DEV_API_KEY`.
 - Expose FastAPI service behind HTTPS reverse proxy.
+- For Render web services, set start command to: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+- Set health check path to: `/health`
 
 ## 12. Troubleshooting
 
