@@ -409,10 +409,3 @@ Backend:
 - Verify backend is running on configured URL.
 - Confirm `NEXT_PUBLIC_BACKEND_URL` in `frontend/.env.local`.
 
-## 13. Near-Term Backlog (Recommended)
-
-- Add automated tests for backend pipeline node contracts.
-- Add strict typed response models for search result items.
-- Add health details endpoint with dependency checks.
-- Add optional caching for repeated xray query patterns.
-- Add CI pipeline for lint, type-check, and backend tests.
