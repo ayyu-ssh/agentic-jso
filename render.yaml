@@ -11,16 +11,3 @@ services:
         sync: false
       - key: SERP_DEV_API_KEY
         sync: false
-
-  - type: web
-    name: agentic-jso-frontend
-    runtime: node
-    plan: free
-    rootDir: frontend
-    buildCommand: npm ci && npm run build
-    startCommand: npm run start
-    envVars:
-      - key: NODE_VERSION
-        value: 20
-      - key: NEXT_PUBLIC_BACKEND_URL
-        sync: false

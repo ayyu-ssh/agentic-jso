@@ -26,6 +26,17 @@ if not logger.handlers:
 
 MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024
 ALLOWED_RESUME_EXTENSIONS = {".pdf"}
+DEBUG_STATE_DUMPS_ENABLED = os.getenv("DEBUG_STATE_DUMPS", "false").lower() == "true"
+
+
+def _write_debug_state(filename: str, state: AgenticJSOSharedState) -> None:
+	if not DEBUG_STATE_DUMPS_ENABLED:
+		return
+
+	# Vercel filesystem is read-only except for temp directories.
+	debug_path = Path(tempfile.gettempdir()) / filename
+	with debug_path.open("w", encoding="utf-8") as file_handle:
+		file_handle.write(state.model_dump_json(indent=2))
 
 
 def _validate_required_env() -> None:
@@ -99,17 +110,13 @@ def _run_pipeline(state: AgenticJSOSharedState) -> AgenticJSOSharedState:
 	from backend.nodes.search import run_parallel_search
 
 	state = parse_resume(state)
-	with open("state_debug.json", "w", encoding="utf-8") as f:
-		f.write(state.model_dump_json(indent=2))
+	_write_debug_state("state_debug.json", state)
 	state = query_expansion(state)
-	with open("state_debug_after_expansion.json", "w", encoding="utf-8") as f:
-		f.write(state.model_dump_json(indent=2))
+	_write_debug_state("state_debug_after_expansion.json", state)
 	state = generate_job_query(state)
-	with open("state_debug_after_query_generation.json", "w", encoding="utf-8") as f:
-		f.write(state.model_dump_json(indent=2))
+	_write_debug_state("state_debug_after_query_generation.json", state)
 	state = run_parallel_search(state)
-	with open("state_debug_after_search.json", "w", encoding="utf-8") as f:
-		f.write(state.model_dump_json(indent=2))
+	_write_debug_state("state_debug_after_search.json", state)
 	return state
 
 
