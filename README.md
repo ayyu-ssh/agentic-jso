@@ -6,6 +6,7 @@ Intent-aware Job Search Optimizer prototype with:
 - Next.js frontend with a clean input workflow and result cards.
 - Proxy-based frontend API routes for simple integration and safer browser/backend boundaries.
 
+Prototype for the developped module can be viewed [here](https://agentic-jso.onrender.com/)
 ## 1. What This Project Does
 
 This project accepts:
